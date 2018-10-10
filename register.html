@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Semester Registration</title>
+</head>
+<body>
+<!-- welcome {{uid}} -->
+<form action="/getfile/" method="post" id="s">
+    {% csrf_token %}<br>
+    Select Semester:
+    <select name="semester" >
+        <option value="one">1</option>
+        <option value="two">2</option>
+        <option value="three">3</option>
+        <option value="four">4</option>
+        <option value="five">5</option>
+        <option value="six">6</option>
+        <option value="seven">7</option>
+        <option value="eight">8</option>
+    </select><br><br>
+    Select Branch:
+    <select name="branch" >
+        <option value="cse">CSE</option>
+        <option value="eee">EEE</option>
+        <option value="ece">ECE</option>
+        <option value="civil">Civil</option>
+        <option value="mech">Mech</option>
+    </select><br><br>
+    <button type="submit">View Sylabus</button>
+</form><br>
+<form action="/postregister/" method="post">
+    {% csrf_token %}
+    Roll Number:
+    <input type="tel" name="roll" required>
+    <br><br>
+    Name:
+    <input type="text" name="name" required>
+    <br><br>
+    Branch:
+    <select name="branch" id="branch">
+        <option value="cse">CSE</option>
+        <option value="eee">EEE</option>
+        <option value="ece">ECE</option>
+        <option value="civil">Civil</option>
+        <option value="mech">Mech</option>
+    </select>
+    <br><br>
+    Semester:
+    <select name="semester" id="semester">
+        <option value="one">1</option>
+        <option value="two">2</option>
+        <option value="three">3</option>
+        <option value="four">4</option>
+        <option value="five">5</option>
+        <option value="six">6</option>
+        <option value="seven">7</option>
+        <option value="eight">8</option>
+    </select>
+    <br><br>
+    Upload Image:
+    <input type="file" name="files[]" id="files" required>
+    <input type="hidden" name="url" id="url">
+    <button type="button" onclick="uploadImage()">Upload</button>
+    <br><br>
+    Address:<br>
+    <textarea rows="4" cols="50" name="address" required></textarea>
+    <br><br>
+    <input type="submit" value="Register">
+</form>
+</body>
+<script src="https://www.gstatic.com/firebasejs/5.4.1/firebase.js"></script>
+
+
+<script>
+      // Set the configuration for your app
+  // TODO: Replace with your project's config object
+  var config = {
+    apiKey: 'AIzaSyDZLNyhMnFOI0_qXhr1TV6n0sdpnjHd-f8',
+    authDomain: 'nithregistration.firebaseapp.com',
+    databaseURL: 'https://nithregistration.firebaseio.com',
+    storageBucket: 'nithregistration.appspot.com'
+
+  };
+  firebase.initializeApp(config);
+
+  function uploadImage(){
+  // Get a reference to the storage service, which is used to create references in your storage bucket
+  var storage = firebase.storage();
+  var file = document.getElementById("files").files[0];
+  var storageRef = storage.ref();
+  var branch = document.getElementById('branch').value;
+  var semester = document.getElementById('semester').value;
+  console.log(branch)
+  console.log(semester)
+  var thisref = storageRef.child("Student").child(semester).child(branch).child('{{uid}}').child(file.name).put(file);
+  thisref.on('state_changed', function(snapshot){
+
+  // var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+  // console.log('Upload is ' + progress + '% done');
+  console.log("Success!!");
+
+  }, function(error) {
+
+  }, function() {
+  // var downloadURL = thisref.snapshot.downloadURL;
+  // console.log("got url" + downloadURL);
+  // document.getElementById("url").value = downloadURL;
+
+  var downloadUrl = '';
+  thisref.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+    document.getElementById("url").value = downloadURL;
+    downloadUrl = downloadURL;
+    console.log('File available at', downloadURL);
+  });
+
+
+  console.log("got url " + downloadUrl);
+  alert("Success!");
+  });
+  }
+
+</script>
+</html>
