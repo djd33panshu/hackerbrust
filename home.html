@@ -1,0 +1,89 @@
+
+
+{% if n %}
+<script>
+    alert('{{n}}, You did it!!');
+</script>
+{% endif %}
+<!--
+{% if n %}
+<button type="button" onclick="location.href = '{% url 'generate' %}'">Download Your Details</button>
+{% endif %}
+-->
+<!--<button type="button" onclick="location.href = '{% url 'generate' %}'">Download Your Details</button>-->
+<!--<button type="submit" onclick="location.href='/pdf/?name={{n}}'">Download Details</button>-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NITH</title>
+</head>
+<body>
+<h4>Check Your Name in Hostel and Library List, if not find your name, You are clear to </h4>
+<button type="button" onclick="location.href = '{% url 'register' %}'">Register</button>
+<br><br>
+(If you got your name in any of these list, kindly pay fee accordingly, and come back again!)<br>
+<form action="/getfile/" method="post" id="s">
+    {% csrf_token %}<br>
+    Select Semester:
+    <select name="semester" id="semester">
+        <option value="one">1</option>
+        <option value="two">2</option>
+        <option value="three">3</option>
+        <option value="four">4</option>
+        <option value="five">5</option>
+        <option value="six">6</option>
+        <option value="seven">7</option>
+        <option value="eight">8</option>
+    </select><br><br>
+    Select Branch:
+    <select name="branch" id="branch">
+        <option value="cse">CSE</option>
+        <option value="eee">EEE</option>
+        <option value="ece">ECE</option>
+        <option value="civil">Civil</option>
+        <option value="mech">Mech</option>
+    </select><br><br>
+    Select File:
+    <select name="file" id="branch">
+        <option value="library">Library</option>
+        <option value="hostel">Hostel</option>
+        <!--<option value="sylabus">Sylabus</option>-->
+    </select><br><br>
+    <button type="submit">Download File</button>
+</form><br>
+<button type="button" onclick="location.href='{% url 'log' %}'">Logout</button>
+</body>
+
+<script src="https://www.gstatic.com/firebasejs/5.4.1/firebase.js"></script>
+<script>
+      // Set the configuration for your app
+  // TODO: Replace with your project's config object
+  var config = {
+    apiKey: 'AIzaSyDZLNyhMnFOI0_qXhr1TV6n0sdpnjHd-f8',
+    authDomain: 'nithregistration.firebaseapp.com',
+    databaseURL: 'https://nithregistration.firebaseio.com',
+    storageBucket: 'nithregistration.appspot.com'
+
+  };
+  firebase.initializeApp(config);
+
+</script>
+
+<script type="text/javascript">
+function checkUser(){
+var user = firebase.auth().currentUser;
+
+if (user) {
+  // User is signed in.
+} else {
+  // No user is signed in.
+  window.location = "sign"
+}
+
+}
+window.onload = checkUser;
+</script>
+
+</html>
