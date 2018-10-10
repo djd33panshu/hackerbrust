@@ -1,0 +1,37 @@
+{% if msg %}
+<script>
+    alert('{{msg}}');
+</script>
+{% endif %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+<form action="/postlogin/" method="post">
+    {% csrf_token %}
+    Enter Email:
+    <input type="email" name="email" required><br><br>
+    Password:
+    <input type="password" name="password" required><br><br>
+    <input type="submit" value="Login">
+</form>
+</body>
+
+<script src="https://www.gstatic.com/firebasejs/5.5.2/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyDZLNyhMnFOI0_qXhr1TV6n0sdpnjHd-f8",
+    authDomain: "nithregistration.firebaseapp.com",
+    databaseURL: "https://nithregistration.firebaseio.com",
+    projectId: "nithregistration",
+    storageBucket: "nithregistration.appspot.com",
+    messagingSenderId: "433127634538"
+  };
+  firebase.initializeApp(config);
+</script>
+
+</html>
